@@ -1,0 +1,11 @@
+{
+  "name": "threejs-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/putukrisna6/threejs-template.git",
+  "author": "Putu Krisna Andyartha <43901559+putukrisna6@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/three": "^0.133.1"
+  }
+}
