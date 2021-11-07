@@ -17,9 +17,15 @@ button {
   font-family: sans-serif;
   font-size: 16px;
   color: #fff;
-  background: #3a772c;
+  background: #3085a3;
+  border-radius: 10px;
   width: 100px;
   height: 40px;
   margin: 0 0 5px 0;
   border: none;
+}
+
+button:hover {
+  transition: transform .7s ease-in-out;
+  transform: scale(1.05);
 }

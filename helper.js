@@ -47,8 +47,6 @@ class CannonHelper {
    */
   addVisual(body, name, castShadow = true, receiveShadow = true) {
     body.name = name;
-    if (this.currentMaterial === undefined)
-      this.currentMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 });
 
     // What geometry should be used?
     let mesh;
@@ -82,15 +80,17 @@ class CannonHelper {
 
       switch (shape.type) {
         case CANNON.Shape.types.SPHERE:
-          const sphere_geometry = new THREE.SphereGeometry(shape.radius, 8, 8);
-          mesh = new THREE.Mesh(sphere_geometry, material);
+          const sphereGeometry = new THREE.SphereGeometry(shape.radius, 50, 50);
+          const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xfb8500});
+          mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
           break;
 
         case CANNON.Shape.types.PLANE:
           geometry = new THREE.PlaneGeometry(10, 10, 4, 4);
           mesh = new THREE.Object3D();
           const submesh = new THREE.Object3D();
-          const ground = new THREE.Mesh(geometry, material);
+          const planeMaterial = new THREE.MeshLambertMaterial({color: 0x999a9b});
+          const ground = new THREE.Mesh(geometry, planeMaterial);
           ground.scale.set(100, 100, 100);
           submesh.add(ground);
 
@@ -98,12 +98,13 @@ class CannonHelper {
           break;
 
         case CANNON.Shape.types.BOX:
-          const box_geometry = new THREE.BoxGeometry(
+          const boxGeometry = new THREE.BoxGeometry(
             shape.halfExtents.x * 2,
             shape.halfExtents.y * 2,
             shape.halfExtents.z * 2
           );
-          mesh = new THREE.Mesh(box_geometry, material);
+          const boxMaterial = new THREE.MeshPhongMaterial({color: 0x219ebc});
+          mesh = new THREE.Mesh(boxGeometry, boxMaterial);
           break;
 
         default:
@@ -131,6 +132,10 @@ class CannonHelper {
     return obj;
   }
 
+  /**
+   * 
+   * @param {CANNON.World} world 
+   */
   updateBodies(world) {
     world.bodies.forEach(function (body) {
       if (body.threemesh != undefined) {
