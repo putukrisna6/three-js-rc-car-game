@@ -1,3 +1,5 @@
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js";
+
 /** @type {THREE.PerspectiveCamera} */
 let camera;
 /** @type {THREE.Scene} */
@@ -36,6 +38,12 @@ let fixedTimeStep;
 
   // Render
   renderer = new THREE.WebGLRenderer({ antialias: true });
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.25;
+  controls.enableZoom = true;
+
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
