@@ -88,7 +88,7 @@ class CannonHelper {
           geometry = new THREE.PlaneGeometry(10, 10, 4, 4);
           mesh = new THREE.Object3D();
           const submesh = new THREE.Object3D();
-          const planeMaterial = new THREE.MeshLambertMaterial({color: 0x999a9b});
+          const planeMaterial = new THREE.MeshLambertMaterial({side: THREE.DoubleSide, color: 0x999a9b});
           const ground = new THREE.Mesh(geometry, planeMaterial);
           ground.scale.set(100, 100, 100);
           submesh.add(ground);
