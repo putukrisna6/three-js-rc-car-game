@@ -24,7 +24,7 @@ let fixedTimeStep;
 (function init() {
   // set up three.js scene
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0, 0, 0);
+  // scene.background = new THREE.Color(0, 0, 0);
 
   // Camera
   camera = new THREE.PerspectiveCamera(
@@ -34,7 +34,6 @@ let fixedTimeStep;
     1000
   );
   camera.position.set(0, 2, 8);
-  // camera.position.lookAt(new THREE.Vector3(0, 1, 0));
 
   // Render
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -48,10 +47,10 @@ let fixedTimeStep;
   document.body.appendChild(renderer.domElement);
 
   const buttons = document.getElementById("gui").childNodes;
-  buttons[1].onclick = function() {
+  buttons[1].onclick = function () {
     addSphere();
   };
-  buttons[3].onclick = function() {
+  buttons[3].onclick = function () {
     addBox();
   };
 
@@ -65,7 +64,7 @@ function addSphere() {
   const material = new CANNON.Material();
   const body = new CANNON.Body({
     mass: 5,
-    material: material
+    material: material,
   });
 
   body.addShape(sphere);
@@ -75,14 +74,14 @@ function addSphere() {
   body.linearDamping = damping;
   world.add(body);
 
-  helper.addVisual(body, 'sphere', true, true);
+  helper.addVisual(body, "sphere", true, true);
 
   const contactMaterial = new CANNON.ContactMaterial(
     new CANNON.Material(),
     material,
     {
       friction: 0.2,
-      restitution: 0.7
+      restitution: 0.7,
     }
   );
 
@@ -93,7 +92,7 @@ function addBox() {
   const material = new CANNON.Material();
   const body = new CANNON.Body({
     mass: 5,
-    material: material
+    material: material,
   });
 
   body.addShape(box);
@@ -103,14 +102,14 @@ function addBox() {
   body.linearDamping = damping;
   world.add(body);
 
-  helper.addVisual(body, 'box', true, true);
+  helper.addVisual(body, "box", true, true);
 
   const contactMaterial = new CANNON.ContactMaterial(
     new CANNON.Material(),
     material,
     {
       friction: 0.2,
-      restitution: 0.1
+      restitution: 0.1,
     }
   );
 
@@ -124,12 +123,12 @@ function initPhysics() {
 
   world.broadphase = new CANNON.NaiveBroadphase();
   world.gravity.set(0, -9.8, 0);
-  
+
   const groundShape = new CANNON.Plane();
   const groundMaterial = new CANNON.Material();
   const groundBody = new CANNON.Body({
     mass: 0,
-    material: groundMaterial
+    material: groundMaterial,
   });
   groundBody.quaternion.setFromAxisAngle(
     new CANNON.Vec3(1, 0, 0),
@@ -138,7 +137,7 @@ function initPhysics() {
   groundBody.addShape(groundShape);
   world.add(groundBody);
 
-  helper.addVisual(groundBody, 'ground', false, true);
+  helper.addVisual(groundBody, "ground", false, true);
 
   sphere = new CANNON.Sphere(0.5);
   box = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
@@ -147,7 +146,7 @@ function initPhysics() {
 }
 
 function animate() {
-  requestAnimationFrame(function() {
+  requestAnimationFrame(function () {
     animate();
   });
 

@@ -48,7 +48,6 @@ class CannonHelper {
   addVisual(body, name, castShadow = true, receiveShadow = true) {
     body.name = name;
 
-    // What geometry should be used?
     let mesh;
     if (body instanceof CANNON.Body)
       mesh = this.shape2Mesh(body, castShadow, receiveShadow);
@@ -81,7 +80,7 @@ class CannonHelper {
       switch (shape.type) {
         case CANNON.Shape.types.SPHERE:
           const sphereGeometry = new THREE.SphereGeometry(shape.radius, 50, 50);
-          const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xfb8500});
+          const sphereMaterial = new THREE.MeshPhongMaterial({color: 0x219ebc});
           mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
           break;
 
@@ -103,7 +102,10 @@ class CannonHelper {
             shape.halfExtents.y * 2,
             shape.halfExtents.z * 2
           );
-          const boxMaterial = new THREE.MeshPhongMaterial({color: 0x219ebc});
+          const boxMaterial = new THREE.MeshPhongMaterial({
+            color: 0xffb703,
+            map: new THREE.TextureLoader().load("assets/images/wood.jpg"),
+          });
           mesh = new THREE.Mesh(boxGeometry, boxMaterial);
           break;
 
