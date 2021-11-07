@@ -6,6 +6,7 @@
   "author": "Putu Krisna Andyartha <43901559+putukrisna6@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/cannon": "^0.1.7",
     "@types/three": "^0.133.1"
   }
 }
