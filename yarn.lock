@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@types/cannon@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@types/cannon/-/cannon-0.1.7.tgz#207054af280bcb6c14febd8f8c886c51b89fb5b2"
+  integrity sha512-D2BpUjnKI6B8+VkUHXWHqDziR6V3nllRwKsSCYajJusWOfGxuaF9s7gqrYnSAX7G2ykbZ+YWyOCOz1Gk3RRVrw==
+
 "@types/three@^0.133.1":
   version "0.133.1"
   resolved "https://registry.yarnpkg.com/@types/three/-/three-0.133.1.tgz#6007faaf7f6b53339150a2a1fe57121e4c6607c1"
