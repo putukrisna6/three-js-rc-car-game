@@ -24,7 +24,20 @@ let fixedTimeStep;
 (function init() {
   // set up three.js scene
   scene = new THREE.Scene();
-  // scene.background = new THREE.Color(0, 0, 0);
+
+  const tloader = new THREE.CubeTextureLoader();
+  tloader.setPath("assets/images/");
+
+  const textureCube = tloader.load([
+    "px.jpg",
+    "nx.jpg",
+    "py.jpg",
+    "ny.jpg",
+    "pz.jpg",
+    "nz.jpg",
+  ]);
+
+  scene.background = textureCube;
 
   // Camera
   camera = new THREE.PerspectiveCamera(
