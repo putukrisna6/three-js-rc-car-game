@@ -1,49 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Testing CANNON.js & Collision</title>
-    <style>
-      body {
-        margin: 0;
-      }
-      canvas {
-        width: 100%;
-        height: 100%;
-      }
-      #gui {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        width: 100px;
-        padding: 0;
-        margin: 0;
-      }
-      button {
-        font-family: sans-serif;
-        font-size: 16px;
-        color: #fff;
-        background: #3a772c;
-        width: 100px;
-        height: 40px;
-        margin: 0 0 5px 0;
-        border: none;
-      }
-    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+      integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+    <script defer src="./functions.js"></script>
+    <script defer src="./index.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <title>THREE.js Template</title>
   </head>
   <body>
-    <div id="gui">
-      <button>Add Sphere</button>
-      <button>Add Box</button>
-    </div>
-    <script src="libs/three.min.js"></script>
-    <script src="libs/cannon.min.js"></script>
-    <script src="libs/CannonDebugRenderer.js"></script>
-    <script src="helper.js"></script>
-    <script src="game.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const game = new Game();
-        window.game = game; //For debugging only
-      });
-    </script>
+    <h1 id=title>THREE.js Template</h1>
   </body>
 </html>
