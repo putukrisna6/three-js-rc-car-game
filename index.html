@@ -1,26 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<head>
+		<title>RC Time Trial - a 3d racing game</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="description" content="Time trial using Three.js and Cannon.js" />
+		<meta property="og:type" content="product" />
+		<meta property="og:title" content="RC Time Trial - a 3d racing game" />
+		<meta property="og:description" content="Time trial using Three.js and Cannon.js" />
+		<meta property="og:image:alt" content="RC Time Trial - a 3d racing game" />
+		<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Kavivanar" rel="stylesheet">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			
+			#reset-btn{
+				position: absolute;
+				left: 15px;
+				bottom: 15px;
+				width: 40px;
+				height: 40px;
+				border: none;
+				border-radius: 50%;
+				background:#3B53A2;
+				font-size: 25px;
+				color: #fff;
+				z-index: 100;
+				padding: 0;
+			}
+			
+			#logo{
+				position: absolute;
+				left: 15px;
+				top: 15px;
+			}
+			
+			svg{
+				pointer-events: none;
+			}
+		</style>
+	</head>
 
-    <script defer src="./functions.js"></script>
-    <script defer src="./index.js"></script>
-
-    <link rel="stylesheet" href="style.css" />
-
-    <title>THREE.js RC Car Game</title>
-  </head>
-  <body>
-    <div id="gui">
-      <button>Add Sphere</button>
-      <button>Add Box</button>
-    </div>
-    <script src="libs/three.min.js"></script>
-    <script src="libs/cannon.min.js"></script>
-    <script src="libs/CannonDebugRenderer.js"></script>
-    <script src="helper.js"></script>
-    <script type="module" src="index.js"></script>
-  </body>
+	<body>
+		<div id="logo"><img src="../assets/images/logo.png"></div>
+		<button id="reset-btn"><i class="fas fa-car"></i></button>
+		
+		<script src="../../libs/three.min.js"></script>
+		<script src="../../libs/inflate.min.js"></script>
+		<script src="../../libs/FBXLoader.js"></script>
+		<script src="../../libs/OrbitControls.js"></script>
+		<script src="../../libs/Detector.js"></script>
+		<script src="../../libs/stats.min.js"></script>
+		<script src="../../libs/cannon.min.js"></script>
+		<script src="../../libs/CannonDebugRenderer.js"></script>
+		<script src="game.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+	
+		<script>
+			document.addEventListener("DOMContentLoaded", function(){
+				const game = new Game();
+				window.game = game;//For debugging only
+			});
+		</script>
+	</body>
 </html>
+
+
