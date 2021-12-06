@@ -483,11 +483,11 @@ class Game {
 
     this.createColliders();
 
-    if (this.debugPhysics)
-      this.debugRenderer = new THREE.CannonDebugRenderer(
-        this.scene,
-        this.world
-      );
+    // if (this.debugPhysics)
+    //   this.debugRenderer = new THREE.CannonDebugRenderer(
+    //     this.scene,
+    //     this.world
+    //   );
   }
 
   createColliders() {
