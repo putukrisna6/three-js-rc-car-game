@@ -23,18 +23,9 @@ class Game {
     this._hints = 0;
     this.score = 0;
     this.debug = false;
-    this.debugPhysics = true;
     this.fixedTimeStep = 1.0 / 60.0;
     this.js = { forward: 0, turn: 0 };
 		this.keyboardState = {};
-
-    this.messages = {
-      text: ['Welcome to Skyblade.'],
-      index: 0,
-    };
-
-    if (localStorage && !this.debug) {
-    }
 
     this.container = document.createElement('div');
     this.container.style.height = '100%';
@@ -64,8 +55,6 @@ class Game {
     this.motion = { forward: 0, turn: 0 };
     this.clock = new THREE.Clock();
 
-    //this.init();
-    //this.animate();
     if ('ontouchstart' in window) {
       document
         .getElementById('reset-btn')
@@ -83,34 +72,6 @@ class Game {
     window.onError = function (error) {
       console.error(JSON.stringify(error));
     };
-  }
-
-  makeWireframe(mode = true, model = this.assets) {
-    const game = this;
-
-    if (model.isMesh) {
-      if (Array.isArray(model.material)) {
-        model.material.forEach(function (material) {
-          material.wireframe = mode;
-        });
-      } else {
-        model.material.wireframe = mode;
-      }
-    }
-
-    model.children.forEach(function (child) {
-      if (child.children.length > 0) {
-        game.makeWireframe(mode, child);
-      } else if (child.isMesh) {
-        if (Array.isArray(child.material)) {
-          child.material.forEach(function (material) {
-            material.wireframe = mode;
-          });
-        } else {
-          child.material.wireframe = mode;
-        }
-      }
-    });
   }
 
   resetCar() {
@@ -156,7 +117,6 @@ class Game {
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xa0a0a0);
-    //this.scene.fog = new THREE.Fog( 0xa0a0a0, 20, 100 );
 
     // LIGHTS
     const ambient = new THREE.AmbientLight(0xaaaaaa);
@@ -186,16 +146,6 @@ class Game {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;
     this.container.appendChild(this.renderer.domElement);
-
-    if ('ontouchstart' in window) {
-      //this.renderer.domElement.addEventListener('touchstart', function(evt){ game.tap(evt); });
-    } else {
-      //this.renderer.domElement.addEventListener('mousedown', function(evt){ game.tap(evt); });
-    }
-
-    //this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
-    //this.controls.enableZoom = true;
-    //this.controls.enablePan = true;
 
     this.loadAssets();
 
@@ -328,8 +278,6 @@ class Game {
     );
   }
 
-  reset() {}
-
   customiseCar(bonnet = 0, engine = 0, seat = 0, wheel = 0, xtra = 0) {
     this.car.bonnet[bonnet].visible = true;
     this.car.engine[engine].visible = true;
@@ -341,20 +289,6 @@ class Game {
     this.car.selected.seat = this.car.seat[seat];
     this.car.selected.wheel = this.car.wheel[wheel];
     this.car.selected.xtra = this.car.xtra[xtra];
-  }
-
-  startMessages() {
-    this.sfx.click.play();
-    if (this.messages.index < this.messages.text.length - 1) {
-      this.showMessage(
-        this.messages.text[this.messages.index],
-        25,
-        this.startMessages
-      );
-    } else {
-      this.showMessage(this.messages.text[this.messages.index], 25);
-    }
-    this.messages.index++;
   }
 
   updatePhysics() {
@@ -482,12 +416,6 @@ class Game {
     this.vehicle = vehicle;
 
     this.createColliders();
-
-    // if (this.debugPhysics)
-    //   this.debugRenderer = new THREE.CannonDebugRenderer(
-    //     this.scene,
-    //     this.world
-    //   );
   }
 
   createColliders() {
