@@ -164,26 +164,32 @@ class Game {
     const loader = new THREE.FBXLoader();
 
     loader.load(
-      '../assets/rc_time_trial.fbx',
+      '../assets/coba.fbx',
       function (object) {
-        let material, map, index, maps;
         const euler = new THREE.Euler();
         game.proxies = {};
         game.checkpoints = [];
 
+        let i = 0;
+
+        game.car = {
+          chassis: null,
+          bonnet: [],
+          engine: [],
+          wheel: [],
+          seat: [],
+          xtra: [],
+          selected: {},
+        };
+
         object.traverse(function (child) {
+          console.log(i++ + child.name);
           let receiveShadow = true;
           if (child.isMesh) {
             if (child.name == 'Chassis') {
-              game.car = {
-                chassis: child,
-                bonnet: [],
-                engine: [],
-                wheel: [],
-                seat: [],
-                xtra: [],
-                selected: {},
-              };
+              console.log(child);
+              
+              game.car.chassis = child;
               game.followCam = new THREE.Object3D();
               game.followCam.position.copy(game.camera.position);
               game.scene.add(game.followCam);
@@ -417,7 +423,7 @@ class Game {
     const divisor = 2 / scaleAdjust;
     this.assets.children.forEach(function (child) {
       if (child.isMesh && child.name.includes('Collider')) {
-        child.visible = false;
+        child.visible = true;
         const halfExtents = new CANNON.Vec3(
           child.scale.x / divisor,
           child.scale.y / divisor,
