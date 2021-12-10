@@ -22,7 +22,6 @@ class Game {
     this.levelIndex = 0;
     this._hints = 0;
     this.score = 0;
-    this.debug = false;
     this.fixedTimeStep = 1.0 / 60.0;
     this.js = { forward: 0, turn: 0 };
 		this.keyboardState = {};
@@ -156,12 +155,6 @@ class Game {
       },
       false
     );
-
-    // stats
-    if (this.debug) {
-      this.stats = new Stats();
-      this.container.appendChild(this.stats.dom);
-    }
 
     this.onKeyboard();
   }
