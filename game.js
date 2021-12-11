@@ -216,7 +216,7 @@ class Game {
     const loader = new THREE.FBXLoader();
 
     loader.load(
-      '../assets/coba.fbx',
+      '../assets/new_track.fbx',
       function (object) {
         const euler = new THREE.Euler();
         game.proxies = {};
