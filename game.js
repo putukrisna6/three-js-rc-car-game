@@ -83,6 +83,7 @@ class Game {
     };
   }
 
+  /** Reset the car to the latest checkpoint */
   resetCar() {
     this.sfx.skid.play();
 
@@ -104,6 +105,9 @@ class Game {
     this.vehicle.chassisBody.angularVelocity.set(0, 0, 0);
   }
 
+  /** Loads all of the SFX with preconfigured volume
+   * @see SFX class in ./utils/sfx.js
+   */
   initSfx() {
     this.sfx = {};
     this.sfx.context = new (window.AudioContext || window.webkitAudioContext)();
@@ -145,6 +149,9 @@ class Game {
     });
   }
 
+  /**
+   * THREE.js initialization such as Camera, light
+   */
   init() {
     this.mode = this.modes.INITIALISING;
 
@@ -201,6 +208,9 @@ class Game {
     this.onKeyboard();
   }
 
+  /**
+   * Loads fbx assets such as the terrain, and car
+   */
   loadAssets() {
     const game = this;
     const loader = new THREE.FBXLoader();
@@ -337,6 +347,9 @@ class Game {
       this.physics.debugRenderer.scene.visible = true;
   }
 
+  /**
+   * Initialize Cannon.js physics
+   */
   initPhysics() {
     this.physics = {};
 
@@ -459,6 +472,9 @@ class Game {
     this.createColliders();
   }
 
+  /**
+   * Create colliders according to the assets
+   */
   createColliders() {
     const world = this.world;
     const scaleAdjust = 0.9;
@@ -481,6 +497,10 @@ class Game {
     });
   }
 
+  /**
+   * Keyboard controls using wasd
+   * also handles brake when there is no key pressed
+   */
   onKeyboard() {
     const forwardIncrease = 0.06;
     const turnIncrease = 0.02;
@@ -541,6 +561,12 @@ class Game {
     });
   }
 
+  /**
+   * Handles logic of running the car:
+   * - Applying slow start by giving brake
+   * - Incrementally slow the car when there is no forward value
+   * - Handling the turning of the car
+   */
   updateDrive(forward = this.js.forward, turn = this.js.turn) {
     this.sfx.engine.volume = Math.abs(forward) * 0.1 + 0.05;
 
@@ -570,6 +596,9 @@ class Game {
     this.vehicle.setSteeringValue(steer, 3);
   }
 
+  /**
+   * Function to handle window resize so the screen is not cropped
+   */
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -577,6 +606,9 @@ class Game {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+  /**
+   * Move the camera by following the car
+   */
   updateCamera() {
     if (this.followCam === undefined) return;
     const pos = this.car.chassis.position.clone();
@@ -616,6 +648,9 @@ class Game {
     return assets;
   }
 
+  /**
+   * Animate function, controls the updateDrive also the camera
+   */
   animate() {
     const game = this;
 
