@@ -35,8 +35,7 @@ class Game {
 
     const options = {
       assets: [
-        '../assets/rc_time_trial.fbx',
-        '../assets/images/logo.png',
+        '../assets/new_track.fbx',
         '../assets/images/nx.jpg',
         '../assets/images/px.jpg',
         '../assets/images/ny.jpg',
@@ -334,7 +333,7 @@ class Game {
     this.car.engine[engine].visible = true;
     this.car.seat[seat].visible = true;
     this.car.wheel[wheel].visible = true;
-    this.car.xtra[xtra].visible = true;
+    this.car.xtra[xtra].visible = false;
     this.car.selected.bonnet = this.car.bonnet[bonnet];
     this.car.selected.engine = this.car.engine[engine];
     this.car.selected.seat = this.car.seat[seat];
@@ -368,7 +367,7 @@ class Game {
       wheelMaterial,
       groundMaterial,
       {
-        friction: 0.3,
+        friction: 0.9,
         restitution: 0,
         contactEquationStiffness: 1000,
       }
@@ -629,23 +628,6 @@ class Game {
       this.sun.position.copy(this.camera.position);
       this.sun.position.y += 10;
     }
-  }
-
-  getAssetsByName(name) {
-    if (this.assets == undefined) return;
-
-    const names = name.split('.');
-    let assets = this.assets;
-
-    names.forEach(function (name) {
-      if (assets !== undefined) {
-        assets = assets.children.find(function (child) {
-          return child.name == name;
-        });
-      }
-    });
-
-    return assets;
   }
 
   /**
