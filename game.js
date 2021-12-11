@@ -271,9 +271,6 @@ class Game {
               child.visible = false;
               child.castShadow = true;
               receiveShadow = false;
-            } else if (child.name.includes('ProxyKitchen')) {
-              game.proxies.main = child;
-              child.visible = false;
             } else if (child.name == 'CarProxyB') {
               game.proxies.car = child;
               child.visible = false;
@@ -377,6 +374,8 @@ class Game {
     pos.y += 1;
     chassisBody.addShape(chassisShape);
     chassisBody.position.copy(pos);
+    chassisBody.position.z = -18;
+    chassisBody.position.x = 9;
     chassisBody.angularVelocity.set(0, 0, 0);
     chassisBody.threemesh = this.car.chassis;
 
