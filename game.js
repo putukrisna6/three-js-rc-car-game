@@ -24,7 +24,7 @@ class Game {
     this.score = 0;
     this.fixedTimeStep = 1.0 / 60.0;
     this.js = { forward: 0, turn: 0 };
-		this.keyboardState = {};
+    this.keyboardState = {};
 
     this.container = document.createElement('div');
     this.container.style.height = '100%';
@@ -43,6 +43,10 @@ class Game {
         '../assets/images/py.jpg',
         '../assets/images/nz.jpg',
         '../assets/images/pz.jpg',
+        `../assets/sfx/bump.${sfxExt}`,
+        `../assets/sfx/click.${sfxExt}`,
+        `../assets/sfx/engine.${sfxExt}`,
+        `../assets/sfx/skid.${sfxExt}`,
       ],
       oncomplete: function () {
         game.init();
@@ -53,6 +57,12 @@ class Game {
     this.mode = this.modes.PRELOAD;
     this.motion = { forward: 0, turn: 0 };
     this.clock = new THREE.Clock();
+
+    this.initSfx();
+
+    // TODO move this after we have start game button or something else
+    this.sfx.engine.play();
+    this.sfx.engine.autoplay = true;
 
     if ('ontouchstart' in window) {
       document
@@ -73,7 +83,10 @@ class Game {
     };
   }
 
+  /** Reset the car to the latest checkpoint */
   resetCar() {
+    this.sfx.skid.play();
+
     let checkpoint;
     let distance = 10000000000;
     const carPos = this.vehicle.chassisBody.position;
@@ -92,17 +105,53 @@ class Game {
     this.vehicle.chassisBody.angularVelocity.set(0, 0, 0);
   }
 
+  /** Loads all of the SFX with preconfigured volume
+   * @see SFX class in ./utils/sfx.js
+   */
   initSfx() {
     this.sfx = {};
     this.sfx.context = new (window.AudioContext || window.webkitAudioContext)();
+    this.sfx.bump = new SFX({
+      context: this.sfx.context,
+      src: {
+        mp3: '../assets/sfx/bump.mp3',
+        ogg: '../assets/sfx/bump.ogg',
+      },
+      loop: false,
+      volume: 0.3,
+    });
     this.sfx.click = new SFX({
       context: this.sfx.context,
-      src: { mp3: 'assets/sfx/click.mp3', ogg: 'assets/sfx/click.ogg' },
+      src: {
+        mp3: '../assets/sfx/click.mp3',
+        ogg: '../assets/sfx/click.ogg',
+      },
+      loop: false,
+      volume: 0.3,
+    });
+    this.sfx.engine = new SFX({
+      context: this.sfx.context,
+      src: {
+        mp3: '../assets/sfx/engine.mp3',
+        ogg: '../assets/sfx/engine.ogg',
+      },
+      loop: true,
+      volume: 0.1,
+    });
+    this.sfx.skid = new SFX({
+      context: this.sfx.context,
+      src: {
+        mp3: '../assets/sfx/skid.mp3',
+        ogg: '../assets/sfx/skid.ogg',
+      },
       loop: false,
       volume: 0.3,
     });
   }
 
+  /**
+   * THREE.js initialization such as Camera, light
+   */
   init() {
     this.mode = this.modes.INITIALISING;
 
@@ -159,6 +208,9 @@ class Game {
     this.onKeyboard();
   }
 
+  /**
+   * Loads fbx assets such as the terrain, and car
+   */
   loadAssets() {
     const game = this;
     const loader = new THREE.FBXLoader();
@@ -188,7 +240,7 @@ class Game {
           if (child.isMesh) {
             if (child.name == 'Chassis') {
               console.log(child);
-              
+
               game.car.chassis = child;
               game.followCam = new THREE.Object3D();
               game.followCam.position.copy(game.camera.position);
@@ -295,6 +347,9 @@ class Game {
       this.physics.debugRenderer.scene.visible = true;
   }
 
+  /**
+   * Initialize Cannon.js physics
+   */
   initPhysics() {
     this.physics = {};
 
@@ -417,6 +472,9 @@ class Game {
     this.createColliders();
   }
 
+  /**
+   * Create colliders according to the assets
+   */
   createColliders() {
     const world = this.world;
     const scaleAdjust = 0.9;
@@ -439,12 +497,16 @@ class Game {
     });
   }
 
+  /**
+   * Keyboard controls using wasd
+   * also handles brake when there is no key pressed
+   */
   onKeyboard() {
-		const forwardIncrease = 0.06;
-		const turnIncrease = 0.02;
+    const forwardIncrease = 0.06;
+    const turnIncrease = 0.02;
 
-		const forwardThreshold = 0.25;
-		const turnThreshold = 0.25;
+    const forwardThreshold = 0.25;
+    const turnThreshold = 0.25;
 
     window.addEventListener('keydown', (event) => {
       if (event.key === 'w') {
@@ -455,46 +517,59 @@ class Game {
         this.keyboardState['a'] = true;
       } else if (event.key === 'd') {
         this.keyboardState['d'] = true;
-      } 
+      }
 
-			if (this.keyboardState['w'] && this.js.forward >= -1) {
-				if (this.js.forward === 0) this.js.forward = -forwardThreshold;
+      if (this.keyboardState['w'] && this.js.forward >= -1) {
+        if (this.js.forward === 0) this.js.forward = -forwardThreshold;
         this.js.forward += -forwardIncrease;
-			} else if (this.keyboardState['s'] && this.js.forward <= 1) {
-				if (this.js.forward === 0) this.js.forward = forwardThreshold;
-				this.js.forward += forwardIncrease;
+      } else if (this.keyboardState['s'] && this.js.forward <= 1) {
+        if (this.js.forward === 0) this.js.forward = forwardThreshold;
+        this.js.forward += forwardIncrease;
       } else if (this.keyboardState['a'] && this.js.turn <= 1) {
-				if (this.js.turn === 0) this.js.turn = turnThreshold;
+        if (this.js.turn === 0) this.js.turn = turnThreshold;
         this.js.turn += turnIncrease;
       } else if (this.keyboardState['d'] && this.js.turn >= -1) {
-				if (this.js.turn === 0) this.js.turn = -turnThreshold;
+        if (this.js.turn === 0) this.js.turn = -turnThreshold;
         this.js.turn += -turnIncrease;
-      } 
+      }
     });
 
-		window.addEventListener('keyup', (event) => {
-			if (event.key === 'w') {
-				this.keyboardState['w'] = false;
-				this.js.forward = 0;
-			} else if (event.key === 's') {
-				this.keyboardState['s'] = false;
-				this.js.forward = 0;
+    window.addEventListener('keyup', (event) => {
+      if (event.key === 'w') {
+        this.keyboardState['w'] = false;
+        this.js.forward = 0;
+      } else if (event.key === 's') {
+        this.keyboardState['s'] = false;
+        this.js.forward = 0;
       } else if (event.key === 'a') {
         this.keyboardState['a'] = false;
-				this.js.turn = 0;
+        this.js.turn = 0;
       } else if (event.key === 'd') {
         this.keyboardState['d'] = false;
-				this.js.turn = 0;
-      } 
+        this.js.turn = 0;
+      }
 
-			if (!this.keyboardState['w'] && !this.keyboardState['s'] && !this.keyboardState['a'] && !this.keyboardState['d']) {
-				this.js.forward = 0;
-				this.js.turn = 0;
-			}
-		})
+      if (
+        !this.keyboardState['w'] &&
+        !this.keyboardState['s'] &&
+        !this.keyboardState['a'] &&
+        !this.keyboardState['d']
+      ) {
+        this.js.forward = 0;
+        this.js.turn = 0;
+      }
+    });
   }
 
+  /**
+   * Handles logic of running the car:
+   * - Applying slow start by giving brake
+   * - Incrementally slow the car when there is no forward value
+   * - Handling the turning of the car
+   */
   updateDrive(forward = this.js.forward, turn = this.js.turn) {
+    this.sfx.engine.volume = Math.abs(forward) * 0.1 + 0.05;
+
     const maxSteerVal = 0.6;
     const maxForce = 500;
     const brakeForce = 10;
@@ -521,6 +596,9 @@ class Game {
     this.vehicle.setSteeringValue(steer, 3);
   }
 
+  /**
+   * Function to handle window resize so the screen is not cropped
+   */
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -528,6 +606,9 @@ class Game {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+  /**
+   * Move the camera by following the car
+   */
   updateCamera() {
     if (this.followCam === undefined) return;
     const pos = this.car.chassis.position.clone();
@@ -567,6 +648,9 @@ class Game {
     return assets;
   }
 
+  /**
+   * Animate function, controls the updateDrive also the camera
+   */
   animate() {
     const game = this;
 
