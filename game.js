@@ -221,8 +221,6 @@ class Game {
         game.proxies = {};
         game.checkpoints = [];
 
-        let i = 0;
-
         game.car = {
           chassis: null,
           bonnet: [],
@@ -234,12 +232,9 @@ class Game {
         };
 
         object.traverse(function (child) {
-          console.log(i++ + child.name);
           let receiveShadow = true;
           if (child.isMesh) {
             if (child.name == 'Chassis') {
-              console.log(child);
-
               game.car.chassis = child;
               game.followCam = new THREE.Object3D();
               game.followCam.position.copy(game.camera.position);
