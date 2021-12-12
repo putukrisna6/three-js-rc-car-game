@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Kavivanar"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 id="time"></h1>
+
+    <button onclick="toggle()">Toggle</button>
+    <button onclick="reset()">Reset</button>
+
+    <script src="./utils/timer.js"></script>
+    <script>
+      const timer = new Timer();
+      timer.start();
+
+      let isRunning = true;
+      function toggle() {
+        isRunning ? timer.stop() : timer.start();
+
+        isRunning = !isRunning;
+      }
+
+      function reset() {
+        timer.reset();
+      }
+    </script>
+  </body>
+</html>
