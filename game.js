@@ -26,6 +26,8 @@ class Game {
     this.js = { forward: 0, turn: 0 };
     this.keyboardState = {};
 
+    this.score = 0;
+
     this.container = document.createElement('div');
     this.container.style.height = '100%';
     document.body.appendChild(this.container);
@@ -223,13 +225,14 @@ class Game {
 
         game.car = {
           chassis: null,
-          bonnet: [],
-          engine: [],
-          wheel: [],
-          seat: [],
-          xtra: [],
-          selected: {},
+          bonnet: null,
+          engine: null,
+          wheel: null,
+          seat: null,
+          xtra: null,
         };
+
+        game.coins = [];
 
         object.traverse(function (child) {
           let receiveShadow = true;
@@ -244,43 +247,32 @@ class Game {
               child.castShadow = true;
               receiveShadow = false;
             } else if (child.name.includes('Bonnet')) {
-              game.car.bonnet.push(child);
-              child.visible = false;
+              game.car.bonnet = child;
               child.castShadow = true;
               receiveShadow = false;
             } else if (child.name.includes('Engine')) {
-              game.car.engine.push(child);
-              child.visible = false;
+              game.car.engine = child;
               child.castShadow = true;
               receiveShadow = false;
             } else if (child.name.includes('Seat')) {
-              game.car.seat.push(child);
-              child.visible = false;
+              game.car.seat = child;
               receiveShadow = false;
             } else if (
               child.name.includes('Wheel') &&
               child.children.length > 0
             ) {
-              game.car.wheel.push(child);
+              game.car.wheel = child;
               child.parent = game.scene;
-              child.visible = false;
               child.castShadow = true;
               receiveShadow = false;
-            } else if (child.name.includes('Xtra')) {
-              game.car.xtra.push(child);
-              child.visible = false;
-              child.castShadow = true;
-              receiveShadow = false;
-            } else if (child.name == 'CarProxyB') {
-              game.proxies.car = child;
-              child.visible = false;
-            } else if (child.name == 'ConeProxy') {
-              game.proxies.cone = child;
-              child.visible = false;
             } else if (child.name == 'ShadowBounds') {
               child.visible = false;
             } else if (child.name == 'CarShadow') {
               child.visible = false;
+            } else if (child.name.includes('Coin')) {
+              child.castShadow = true;
+              child.picked = false;
+              game.coins.push(child);
             }
 
             child.receiveShadow = receiveShadow;
@@ -291,8 +283,6 @@ class Game {
             }
           }
         });
-
-        game.customiseCar(0, 0, 0, 0, 0);
 
         game.assets = object;
         game.scene.add(object);
@@ -318,19 +308,6 @@ class Game {
         console.error(error);
       }
     );
-  }
-
-  customiseCar(bonnet = 0, engine = 0, seat = 0, wheel = 0, xtra = 0) {
-    this.car.bonnet[bonnet].visible = true;
-    this.car.engine[engine].visible = true;
-    this.car.seat[seat].visible = true;
-    this.car.wheel[wheel].visible = true;
-    this.car.xtra[xtra].visible = false;
-    this.car.selected.bonnet = this.car.bonnet[bonnet];
-    this.car.selected.engine = this.car.engine[engine];
-    this.car.selected.seat = this.car.seat[seat];
-    this.car.selected.wheel = this.car.wheel[wheel];
-    this.car.selected.xtra = this.car.xtra[xtra];
   }
 
   updatePhysics() {
@@ -426,9 +403,9 @@ class Game {
 
     const wheelBodies = [];
     let index = 0;
-    const wheels = [this.car.selected.wheel];
+    const wheels = [this.car.wheel];
     for (let i = 0; i < 3; i++) {
-      let wheel = this.car.selected.wheel.clone();
+      let wheel = this.car.wheel.clone();
       this.scene.add(wheel);
       wheels.push(wheel);
     }
@@ -662,6 +639,17 @@ class Game {
       });
     }
 
+    for (let i = 0; i < this.coins.length; i++) {
+      if(this.badIntersects(this.coins[i].position, this.vehicle.chassisBody.position)) {
+        this.coins[i].visible = false;
+         if (!this.coins[i].picked) {
+          document.getElementById("score").innerText = ++this.score;
+          this.coins[i].picked = true;
+         }
+      };
+      this.coins[i].rotateY(0.01);
+    }
+
     this.updateCamera();
 
     if (this.debugRenderer !== undefined) this.debugRenderer.update();
@@ -669,5 +657,13 @@ class Game {
     this.renderer.render(this.scene, this.camera);
 
     if (this.stats != undefined) this.stats.update();
+  }
+
+  badIntersects(coinPosition, vehiclePosition) {
+    const diffX = Math.abs(coinPosition.x - vehiclePosition.x);
+    const diffY = Math.abs(coinPosition.y - vehiclePosition.y);
+    const diffZ = Math.abs(coinPosition.z - vehiclePosition.z);
+
+    return (diffX < 1.5 && diffY < 1.5 && diffZ < 1.5);
   }
 }
