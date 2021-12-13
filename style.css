@@ -21,10 +21,12 @@ body {
     padding: 0;
 }
 
-#logo{
+#score{
     position: absolute;
-    left: 15px;
+    right: 30px;
     top: 15px;
+    font-size: 3rem;
+    margin: 0;
 }
 
 svg{
