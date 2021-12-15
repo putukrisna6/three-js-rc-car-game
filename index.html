@@ -1,41 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>RC Time Trial - a 3d racing game</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<meta name="description" content="Time trial using Three.js and Cannon.js" />
-		<meta property="og:type" content="product" />
-		<meta property="og:title" content="RC Time Trial - a 3d racing game" />
-		<meta property="og:description" content="Time trial using Three.js and Cannon.js" />
-		<meta property="og:image:alt" content="RC Time Trial - a 3d racing game" />
-		<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Kavivanar" rel="stylesheet">
-		<link rel="stylesheet" href="style.css">
-	</head>
+  <head>
+    <title>RC Time Trial - a 3d racing game</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="Time trial using Three.js and Cannon.js"
+    />
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="RC Time Trial - a 3d racing game" />
+    <meta
+      property="og:description"
+      content="Time trial using Three.js and Cannon.js"
+    />
+    <meta property="og:image:alt" content="RC Time Trial - a 3d racing game" />
+    <link
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Kavivanar"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-	<body>
-		<button id="reset-btn"><i class="fas fa-car"></i></button>
-		<h1 id="score">0</h1>
-		
-		<script src="/libs/three.min.js"></script>
-		<script src="/libs/inflate.min.js"></script>
-		<script src="/libs/FBXLoader.js"></script>
-		<script src="/libs/OrbitControls.js"></script>
-		<script src="/libs/Detector.js"></script>
-		<script src="/libs/cannon.min.js"></script>
-		<script src="/libs/CannonDebugRenderer.js"></script>
-		<script src="/utils/preloader.js"></script>
-		<script src="/utils/sfx.js"></script>
-		<script src="game.js"></script>
-		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
-	
-		<script>
-			document.addEventListener("DOMContentLoaded", function(){
-				const game = new Game();
-				window.game = game;//For debugging only
-			});
-		</script>
-	</body>
+  <body>
+    <button id="reset-btn"><i class="fas fa-car"></i></button>
+    <div class="score">
+      <img class="score__image" src="./assets/images/coin.png" alt="Coin" />
+      <h2 class="score__current" id="score">0</h2>
+      <b>/</b>
+      <h2 class="score__max" id="max-score">0</h2>
+    </div>
+
+    <script src="/libs/three.min.js"></script>
+    <script src="/libs/inflate.min.js"></script>
+    <script src="/libs/FBXLoader.js"></script>
+    <script src="/libs/OrbitControls.js"></script>
+    <script src="/libs/Detector.js"></script>
+    <script src="/libs/cannon.min.js"></script>
+    <script src="/libs/CannonDebugRenderer.js"></script>
+    <script src="/utils/preloader.js"></script>
+    <script src="/utils/sfx.js"></script>
+    <script src="game.js"></script>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+      integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const game = new Game();
+        window.game = game; //For debugging only
+      });
+    </script>
+  </body>
 </html>
-
-

@@ -310,6 +310,9 @@ class Game {
 
         game.scene.background = textureCube;
 
+        const maxCoins = game?.coins.length ?? 0;
+        document.getElementById('max-score').innerText = maxCoins;
+
         game.initPhysics();
       },
       null,
