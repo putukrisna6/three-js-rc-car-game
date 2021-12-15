@@ -500,10 +500,10 @@ class Game {
 
     window.addEventListener("keydown", (event) => {
       if (!this.firstKey) {
-        this.timer = new Timer(3);
+        this.timer = new Timer(0.1);
         this.timer.start(() => {
-          gameoverElement.style.display = "flex"
-          console.log("time ended");
+          this.gameoverElement.style.display = "flex"
+          document.getElementById('time').innerHTML = '00:00:00';
         });
         this.firstKey = true;
         this.welcomeElement.style.display = 'none';
