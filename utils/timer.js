@@ -1,27 +1,35 @@
 class Timer {
-  constructor() {
+  constructor(minutes = 3) {
+    this.minutes = minutes;
+
     /** @type {number} */
-    this.startTime = Date.now();
+    this.duration = Date.now() + this.minutes * 60 * 1000;
     /** @type {number} */
     this.interval = null;
   }
 
-  start() {
+  start(cb = () => {}) {
     this.interval = setInterval(() => {
-      const elapsedTime = Date.now() - this.startTime;
+      const remainingTime = this.duration - Date.now();
 
-      document.getElementById('time').innerHTML = new Date(elapsedTime)
+      document.getElementById('time').innerHTML = new Date(remainingTime)
         .toISOString()
         .substring(14, 22)
         .replace('.', ':');
+
+      if (remainingTime <= 0) {
+        cb();
+        this.stop();
+      }
     }, 100);
   }
 
   stop() {
     clearInterval(this.interval);
+    document.getElementById('time').innerHTML = '00:00:00';
   }
 
   reset() {
-    this.startTime = Date.now();
+    this.duration = Date.now() + this.minutes * 60 * 1000;
   }
 }

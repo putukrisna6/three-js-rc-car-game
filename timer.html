@@ -14,24 +14,12 @@
   <body>
     <h1 id="time"></h1>
 
-    <button onclick="toggle()">Toggle</button>
-    <button onclick="reset()">Reset</button>
-
     <script src="./utils/timer.js"></script>
     <script>
-      const timer = new Timer();
-      timer.start();
-
-      let isRunning = true;
-      function toggle() {
-        isRunning ? timer.stop() : timer.start();
-
-        isRunning = !isRunning;
-      }
-
-      function reset() {
-        timer.reset();
-      }
+      const timer = new Timer(0.1);
+      timer.start(() => {
+        console.log('time ended');
+      });
     </script>
   </body>
 </html>
