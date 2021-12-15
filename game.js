@@ -48,6 +48,7 @@ class Game {
         `../assets/sfx/click.${sfxExt}`,
         `../assets/sfx/engine.${sfxExt}`,
         `../assets/sfx/skid.${sfxExt}`,
+        `../assets/sfx/coin.${sfxExt}`,
       ],
       oncomplete: function () {
         game.init();
@@ -147,6 +148,14 @@ class Game {
       },
       loop: false,
       volume: 0.3,
+    });
+    this.sfx.coin = new SFX({
+      context: this.sfx.context,
+      src: {
+        mp3: '../assets/sfx/coin.mp3',
+      },
+      loop: false,
+      volume: 0.4,
     });
   }
 
@@ -640,13 +649,19 @@ class Game {
     }
 
     for (let i = 0; i < this.coins.length; i++) {
-      if(this.badIntersects(this.coins[i].position, this.vehicle.chassisBody.position)) {
+      if (
+        this.badIntersects(
+          this.coins[i].position,
+          this.vehicle.chassisBody.position
+        )
+      ) {
         this.coins[i].visible = false;
-         if (!this.coins[i].picked) {
-          document.getElementById("score").innerText = ++this.score;
+        if (!this.coins[i].picked) {
+          document.getElementById('score').innerText = ++this.score;
           this.coins[i].picked = true;
-         }
-      };
+          this.sfx.coin.play();
+        }
+      }
       this.coins[i].rotateY(0.01);
     }
 
@@ -664,6 +679,6 @@ class Game {
     const diffY = Math.abs(coinPosition.y - vehiclePosition.y);
     const diffZ = Math.abs(coinPosition.z - vehiclePosition.z);
 
-    return (diffX < 1.5 && diffY < 1.5 && diffZ < 1.5);
+    return diffX < 1.5 && diffY < 1.5 && diffZ < 1.5;
   }
 }
