@@ -27,6 +27,7 @@ class SFX {
       }
     }
   
+    /** Define Supported audio type */
     static supportsAudioType(type) {
       let audio;
   

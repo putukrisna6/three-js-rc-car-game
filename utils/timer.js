@@ -1,3 +1,4 @@
+/** Game Timer */
 class Timer {
   constructor(minutes = 3) {
     this.minutes = minutes;
@@ -8,6 +9,7 @@ class Timer {
     this.interval = null;
   }
 
+  /** Start the countdown timer */
   start(cb = () => {}) {
     this.interval = setInterval(() => {
       const remainingTime = this.duration - Date.now();

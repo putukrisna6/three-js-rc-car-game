@@ -1,3 +1,4 @@
+/** Loading Screen */
 class Preloader {
     constructor(options) {
       this.assets = {};
@@ -53,7 +54,8 @@ class Preloader {
         loader.progressBar.style.width = `${progress}%`;
       }
     }
-  
+    
+    /** Check if Loader is completed */
     checkCompleted() {
       for (let prop in this.assets) {
         const asset = this.assets[prop];
@@ -61,7 +63,8 @@ class Preloader {
       }
       return true;
     }
-  
+
+    /** Progress */
     get progress() {
       let total = 0;
       let loaded = 0;
