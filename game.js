@@ -25,6 +25,9 @@ class Game {
     this.fixedTimeStep = 1.0 / 60.0;
     this.js = { forward: 0, turn: 0 };
     this.keyboardState = {};
+    this.timer;
+
+    this.firstKey = false;
 
     this.score = 0;
 
@@ -34,6 +37,7 @@ class Game {
 
     this.gameoverElement = document.getElementById("gameover");
     this.finishedElement = document.getElementById("finished");
+    this.welcomeElement = document.getElementById("welcome");
 
     const sfxExt = SFX.supportsAudioType("mp3") ? "mp3" : "ogg";
     const game = this;
@@ -83,11 +87,6 @@ class Game {
 
     const preloader = new Preloader(options);
 
-    this.timer = new Timer(3);
-    this.timer.start(() => {
-      gameoverElement.style.display = "flex"
-      console.log("time ended");
-    });
 
     window.onError = function (error) {
       console.error(JSON.stringify(error));
@@ -500,6 +499,16 @@ class Game {
     const turnThreshold = 0.25;
 
     window.addEventListener("keydown", (event) => {
+      if (!this.firstKey) {
+        this.timer = new Timer(3);
+        this.timer.start(() => {
+          gameoverElement.style.display = "flex"
+          console.log("time ended");
+        });
+        this.firstKey = true;
+        this.welcomeElement.style.display = 'none';
+      }
+
       if (event.key === 'r') {
         window.location.reload();
       }

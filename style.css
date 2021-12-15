@@ -31,7 +31,7 @@ body {
   align-items: center;
 }
 
-#gameover, #finished {
+#gameover, #finished, #welcome {
   position: absolute;
   display: flex;
   align-items: center;
@@ -46,7 +46,9 @@ body {
   cursor: default;
 }
 
-#gameover .content, #finished .content {
+#gameover .content, 
+#finished .content, 
+#welcome .content {
   max-width: 300px;
   padding: 50px;
   border-radius: 20px;
