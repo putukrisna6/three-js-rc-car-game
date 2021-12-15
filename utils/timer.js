@@ -26,7 +26,7 @@ class Timer {
 
   stop() {
     clearInterval(this.interval);
-    document.getElementById('time').innerHTML = '00:00:00';
+    // document.getElementById('time').innerHTML = '00:00:00';
   }
 
   reset() {
