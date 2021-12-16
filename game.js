@@ -3,12 +3,12 @@ class Game {
     if (!Detector.webgl) Detector.addGetWebGLMessage();
 
     this.modes = Object.freeze({
-      NONE: Symbol("none"),
-      PRELOAD: Symbol("preload"),
-      INITIALISING: Symbol("initialising"),
-      CREATING_LEVEL: Symbol("creating_level"),
-      ACTIVE: Symbol("active"),
-      GAMEOVER: Symbol("gameover"),
+      NONE: Symbol('none'),
+      PRELOAD: Symbol('preload'),
+      INITIALISING: Symbol('initialising'),
+      CREATING_LEVEL: Symbol('creating_level'),
+      ACTIVE: Symbol('active'),
+      GAMEOVER: Symbol('gameover'),
     });
     this.mode = this.modes.NONE;
 
@@ -31,31 +31,31 @@ class Game {
 
     this.score = 0;
 
-    this.container = document.createElement("div");
-    this.container.style.height = "100%";
+    this.container = document.createElement('div');
+    this.container.style.height = '100%';
     document.body.appendChild(this.container);
 
-    this.gameoverElement = document.getElementById("gameover");
-    this.finishedElement = document.getElementById("finished");
-    this.welcomeElement = document.getElementById("welcome");
+    this.gameoverElement = document.getElementById('gameover');
+    this.finishedElement = document.getElementById('finished');
+    this.welcomeElement = document.getElementById('welcome');
 
-    const sfxExt = SFX.supportsAudioType("mp3") ? "mp3" : "ogg";
+    const sfxExt = SFX.supportsAudioType('mp3') ? 'mp3' : 'ogg';
     const game = this;
 
     const options = {
       assets: [
-        "../assets/new_track.fbx",
-        "../assets/images/nx.jpg",
-        "../assets/images/px.jpg",
-        "../assets/images/ny.jpg",
-        "../assets/images/py.jpg",
-        "../assets/images/nz.jpg",
-        "../assets/images/pz.jpg",
-        `../assets/sfx/bump.${sfxExt}`,
-        `../assets/sfx/click.${sfxExt}`,
-        `../assets/sfx/engine.${sfxExt}`,
-        `../assets/sfx/skid.${sfxExt}`,
-        `../assets/sfx/coin.${sfxExt}`,
+        './assets/new_track.fbx',
+        './assets/images/nx.jpg',
+        './assets/images/px.jpg',
+        './assets/images/ny.jpg',
+        './assets/images/py.jpg',
+        './assets/images/nz.jpg',
+        './assets/images/pz.jpg',
+        `./assets/sfx/bump.${sfxExt}`,
+        `./assets/sfx/click.${sfxExt}`,
+        `./assets/sfx/engine.${sfxExt}`,
+        `./assets/sfx/skid.${sfxExt}`,
+        `./assets/sfx/coin.${sfxExt}`,
       ],
       oncomplete: function () {
         game.init();
@@ -73,20 +73,19 @@ class Game {
     this.sfx.engine.play();
     this.sfx.engine.autoplay = true;
 
-    if ("ontouchstart" in window) {
+    if ('ontouchstart' in window) {
       document
-        .getElementById("reset-btn")
-        .addEventListener("touchstart", function () {
+        .getElementById('reset-btn')
+        .addEventListener('touchstart', function () {
           game.resetCar();
         });
     } else {
-      document.getElementById("reset-btn").onclick = function () {
+      document.getElementById('reset-btn').onclick = function () {
         game.resetCar();
       };
     }
 
     const preloader = new Preloader(options);
-
 
     window.onError = function (error) {
       console.error(JSON.stringify(error));
@@ -124,8 +123,8 @@ class Game {
     this.sfx.bump = new SFX({
       context: this.sfx.context,
       src: {
-        mp3: "../assets/sfx/bump.mp3",
-        ogg: "../assets/sfx/bump.ogg",
+        mp3: './assets/sfx/bump.mp3',
+        ogg: './assets/sfx/bump.ogg',
       },
       loop: false,
       volume: 0.3,
@@ -133,8 +132,8 @@ class Game {
     this.sfx.click = new SFX({
       context: this.sfx.context,
       src: {
-        mp3: "../assets/sfx/click.mp3",
-        ogg: "../assets/sfx/click.ogg",
+        mp3: './assets/sfx/click.mp3',
+        ogg: './assets/sfx/click.ogg',
       },
       loop: false,
       volume: 0.3,
@@ -142,8 +141,8 @@ class Game {
     this.sfx.engine = new SFX({
       context: this.sfx.context,
       src: {
-        mp3: "../assets/sfx/engine.mp3",
-        ogg: "../assets/sfx/engine.ogg",
+        mp3: './assets/sfx/engine.mp3',
+        ogg: './assets/sfx/engine.ogg',
       },
       loop: true,
       volume: 0.1,
@@ -151,8 +150,8 @@ class Game {
     this.sfx.skid = new SFX({
       context: this.sfx.context,
       src: {
-        mp3: "../assets/sfx/skid.mp3",
-        ogg: "../assets/sfx/skid.ogg",
+        mp3: './assets/sfx/skid.mp3',
+        ogg: './assets/sfx/skid.ogg',
       },
       loop: false,
       volume: 0.3,
@@ -160,7 +159,7 @@ class Game {
     this.sfx.coin = new SFX({
       context: this.sfx.context,
       src: {
-        mp3: "../assets/sfx/coin.mp3",
+        mp3: './assets/sfx/coin.mp3',
       },
       loop: false,
       volume: 0.4,
@@ -216,7 +215,7 @@ class Game {
     this.loadAssets();
 
     window.addEventListener(
-      "resize",
+      'resize',
       function () {
         game.onWindowResize();
       },
@@ -234,7 +233,7 @@ class Game {
     const loader = new THREE.FBXLoader();
 
     loader.load(
-      "../assets/new_track.fbx",
+      './assets/new_track.fbx',
       function (object) {
         const euler = new THREE.Euler();
         game.proxies = {};
@@ -254,7 +253,7 @@ class Game {
         object.traverse(function (child) {
           let receiveShadow = true;
           if (child.isMesh) {
-            if (child.name == "Chassis") {
+            if (child.name == 'Chassis') {
               game.car.chassis = child;
               game.followCam = new THREE.Object3D();
               game.followCam.position.copy(game.camera.position);
@@ -263,30 +262,30 @@ class Game {
               game.sun.target = child;
               child.castShadow = true;
               receiveShadow = false;
-            } else if (child.name.includes("Bonnet")) {
+            } else if (child.name.includes('Bonnet')) {
               game.car.bonnet = child;
               child.castShadow = true;
               receiveShadow = false;
-            } else if (child.name.includes("Engine")) {
+            } else if (child.name.includes('Engine')) {
               game.car.engine = child;
               child.castShadow = true;
               receiveShadow = false;
-            } else if (child.name.includes("Seat")) {
+            } else if (child.name.includes('Seat')) {
               game.car.seat = child;
               receiveShadow = false;
             } else if (
-              child.name.includes("Wheel") &&
+              child.name.includes('Wheel') &&
               child.children.length > 0
             ) {
               game.car.wheel = child;
               child.parent = game.scene;
               child.castShadow = true;
               receiveShadow = false;
-            } else if (child.name == "ShadowBounds") {
+            } else if (child.name == 'ShadowBounds') {
               child.visible = false;
-            } else if (child.name == "CarShadow") {
+            } else if (child.name == 'CarShadow') {
               child.visible = false;
-            } else if (child.name.includes("Coin")) {
+            } else if (child.name.includes('Coin')) {
               child.castShadow = true;
               child.picked = false;
               game.coins.push(child);
@@ -294,7 +293,7 @@ class Game {
 
             child.receiveShadow = receiveShadow;
           } else {
-            if (child.name.includes("Checkpoint")) {
+            if (child.name.includes('Checkpoint')) {
               game.checkpoints.push(child);
               child.position.y += 1;
             }
@@ -305,21 +304,21 @@ class Game {
         game.scene.add(object);
 
         const tloader = new THREE.CubeTextureLoader();
-        tloader.setPath("../assets/images/");
+        tloader.setPath('./assets/images/');
 
         var textureCube = tloader.load([
-          "px.jpg",
-          "nx.jpg",
-          "py.jpg",
-          "ny.jpg",
-          "pz.jpg",
-          "nz.jpg",
+          'px.jpg',
+          'nx.jpg',
+          'py.jpg',
+          'ny.jpg',
+          'pz.jpg',
+          'nz.jpg',
         ]);
 
         game.scene.background = textureCube;
 
         const maxCoins = game?.coins.length ?? 0;
-        document.getElementById("max-score").innerText = maxCoins;
+        document.getElementById('max-score').innerText = maxCoins;
 
         game.initPhysics();
       },
@@ -350,8 +349,8 @@ class Game {
     world.gravity.set(0, -10, 0);
     world.defaultContactMaterial.friction = 0;
 
-    const groundMaterial = new CANNON.Material("groundMaterial");
-    const wheelMaterial = new CANNON.Material("wheelMaterial");
+    const groundMaterial = new CANNON.Material('groundMaterial');
+    const wheelMaterial = new CANNON.Material('wheelMaterial');
     const wheelGroundContactMaterial = new CANNON.ContactMaterial(
       wheelMaterial,
       groundMaterial,
@@ -446,7 +445,7 @@ class Game {
     });
     game.car.wheels = wheelBodies;
     // Update wheels
-    world.addEventListener("postStep", function () {
+    world.addEventListener('postStep', function () {
       let index = 0;
       game.vehicle.wheelInfos.forEach(function (wheel) {
         game.vehicle.updateWheelTransform(index);
@@ -470,7 +469,7 @@ class Game {
     const scaleAdjust = 0.9;
     const divisor = 2 / scaleAdjust;
     this.assets.children.forEach(function (child) {
-      if (child.isMesh && child.name.includes("Collider")) {
+      if (child.isMesh && child.name.includes('Collider')) {
         child.visible = true;
         const halfExtents = new CANNON.Vec3(
           child.scale.x / divisor,
@@ -498,11 +497,11 @@ class Game {
     const forwardThreshold = 0.25;
     const turnThreshold = 0.25;
 
-    window.addEventListener("keydown", (event) => {
+    window.addEventListener('keydown', (event) => {
       if (!this.firstKey) {
         this.timer = new Timer(3);
         this.timer.start(() => {
-          this.gameoverElement.style.display = "flex"
+          this.gameoverElement.style.display = 'flex';
           document.getElementById('time').innerHTML = '00:00:00';
         });
         this.firstKey = true;
@@ -513,51 +512,51 @@ class Game {
         window.location.reload();
       }
 
-      if (event.key === "w") {
-        this.keyboardState["w"] = true;
-      } else if (event.key === "s") {
-        this.keyboardState["s"] = true;
-      } else if (event.key === "a") {
-        this.keyboardState["a"] = true;
-      } else if (event.key === "d") {
-        this.keyboardState["d"] = true;
+      if (event.key === 'w') {
+        this.keyboardState['w'] = true;
+      } else if (event.key === 's') {
+        this.keyboardState['s'] = true;
+      } else if (event.key === 'a') {
+        this.keyboardState['a'] = true;
+      } else if (event.key === 'd') {
+        this.keyboardState['d'] = true;
       }
 
-      if (this.keyboardState["w"] && this.js.forward >= -1) {
+      if (this.keyboardState['w'] && this.js.forward >= -1) {
         if (this.js.forward === 0) this.js.forward = -forwardThreshold;
         this.js.forward += -forwardIncrease;
-      } else if (this.keyboardState["s"] && this.js.forward <= 1) {
+      } else if (this.keyboardState['s'] && this.js.forward <= 1) {
         if (this.js.forward === 0) this.js.forward = forwardThreshold;
         this.js.forward += forwardIncrease;
-      } else if (this.keyboardState["a"] && this.js.turn <= 1) {
+      } else if (this.keyboardState['a'] && this.js.turn <= 1) {
         if (this.js.turn === 0) this.js.turn = turnThreshold;
         this.js.turn += turnIncrease;
-      } else if (this.keyboardState["d"] && this.js.turn >= -1) {
+      } else if (this.keyboardState['d'] && this.js.turn >= -1) {
         if (this.js.turn === 0) this.js.turn = -turnThreshold;
         this.js.turn += -turnIncrease;
       }
     });
 
-    window.addEventListener("keyup", (event) => {
-      if (event.key === "w") {
-        this.keyboardState["w"] = false;
+    window.addEventListener('keyup', (event) => {
+      if (event.key === 'w') {
+        this.keyboardState['w'] = false;
         this.js.forward = 0;
-      } else if (event.key === "s") {
-        this.keyboardState["s"] = false;
+      } else if (event.key === 's') {
+        this.keyboardState['s'] = false;
         this.js.forward = 0;
-      } else if (event.key === "a") {
-        this.keyboardState["a"] = false;
+      } else if (event.key === 'a') {
+        this.keyboardState['a'] = false;
         this.js.turn = 0;
-      } else if (event.key === "d") {
-        this.keyboardState["d"] = false;
+      } else if (event.key === 'd') {
+        this.keyboardState['d'] = false;
         this.js.turn = 0;
       }
 
       if (
-        !this.keyboardState["w"] &&
-        !this.keyboardState["s"] &&
-        !this.keyboardState["a"] &&
-        !this.keyboardState["d"]
+        !this.keyboardState['w'] &&
+        !this.keyboardState['s'] &&
+        !this.keyboardState['a'] &&
+        !this.keyboardState['d']
       ) {
         this.js.forward = 0;
         this.js.turn = 0;
@@ -682,7 +681,7 @@ class Game {
       ) {
         this.coins[i].visible = false;
         if (!this.coins[i].picked) {
-          document.getElementById("score").innerText = ++this.score;
+          document.getElementById('score').innerText = ++this.score;
           this.coins[i].picked = true;
           this.sfx.coin.play();
         }
